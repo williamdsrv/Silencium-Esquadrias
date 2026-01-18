@@ -1,12 +1,623 @@
-<!doctype html>
-<html lang="en">
-  <head>
-    <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1" />
-    <title>Silencium Esquadrias</title>
-  </head>
-  <body>
-    <div id="root"></div>
-    <script type="module" src="/main.tsx"></script>
-  </body>
-</html>
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Silencium Esquadrias - Isolamento Acustico e Termico</title>
+  <style>
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+    
+    body {
+      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+      line-height: 1.6;
+      color: #1f2937;
+      background: #ffffff;
+    }
+    
+    .container {
+      max-width: 1200px;
+      margin: 0 auto;
+      padding: 0 20px;
+    }
+    
+    /* Header */
+    header {
+      position: fixed;
+      top: 0;
+      left: 0;
+      right: 0;
+      background: rgba(255, 255, 255, 0.95);
+      backdrop-filter: blur(10px);
+      border-bottom: 1px solid #e5e7eb;
+      z-index: 1000;
+      padding: 1rem 0;
+    }
+    
+    .header-content {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+    
+    .logo {
+      display: flex;
+      align-items: center;
+      gap: 0.5rem;
+      font-weight: bold;
+      font-size: 1.25rem;
+      color: #1e3a8a;
+    }
+    
+    .logo-icon {
+      width: 40px;
+      height: 40px;
+      background: #1e3a8a;
+      border-radius: 6px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      color: white;
+      font-weight: bold;
+    }
+    
+    nav {
+      display: flex;
+      gap: 2rem;
+      align-items: center;
+    }
+    
+    nav a {
+      text-decoration: none;
+      color: #1f2937;
+      transition: color 0.3s;
+    }
+    
+    nav a:hover {
+      color: #1e3a8a;
+    }
+    
+    .btn-primary {
+      background: #1e3a8a;
+      color: white;
+      padding: 0.75rem 1.5rem;
+      border: none;
+      border-radius: 6px;
+      cursor: pointer;
+      font-weight: 500;
+      transition: background 0.3s;
+    }
+    
+    .btn-primary:hover {
+      background: #1e40af;
+    }
+    
+    /* Hero Section */
+    .hero {
+      margin-top: 80px;
+      padding: 4rem 0;
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 3rem;
+      align-items: center;
+    }
+    
+    .hero-content h1 {
+      font-size: 3rem;
+      font-weight: bold;
+      margin-bottom: 1rem;
+      line-height: 1.2;
+    }
+    
+    .hero-content p {
+      font-size: 1.125rem;
+      color: #6b7280;
+      margin-bottom: 2rem;
+    }
+    
+    .hero-buttons {
+      display: flex;
+      gap: 1rem;
+    }
+    
+    .btn-secondary {
+      background: #f3f4f6;
+      color: #1f2937;
+      padding: 0.75rem 1.5rem;
+      border: 1px solid #e5e7eb;
+      border-radius: 6px;
+      cursor: pointer;
+      font-weight: 500;
+      transition: all 0.3s;
+    }
+    
+    .btn-secondary:hover {
+      background: #e5e7eb;
+    }
+    
+    .hero-image {
+      border-radius: 12px;
+      overflow: hidden;
+      box-shadow: 0 20px 40px rgba(0,0,0,0.1);
+    }
+    
+    .hero-image img {
+      width: 100%;
+      height: auto;
+      display: block;
+    }
+    
+    /* Products Section */
+    .products {
+      padding: 4rem 0;
+      background: #f9fafb;
+    }
+    
+    .section-title {
+      text-align: center;
+      font-size: 2.5rem;
+      font-weight: bold;
+      margin-bottom: 1rem;
+    }
+    
+    .section-subtitle {
+      text-align: center;
+      color: #6b7280;
+      font-size: 1.125rem;
+      margin-bottom: 3rem;
+      max-width: 600px;
+      margin-left: auto;
+      margin-right: auto;
+    }
+    
+    .products-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+      gap: 2rem;
+    }
+    
+    .product-card {
+      background: white;
+      border-radius: 12px;
+      overflow: hidden;
+      box-shadow: 0 4px 6px rgba(0,0,0,0.07);
+      transition: box-shadow 0.3s;
+    }
+    
+    .product-card:hover {
+      box-shadow: 0 10px 20px rgba(0,0,0,0.1);
+    }
+    
+    .product-image {
+      width: 100%;
+      height: 250px;
+      background: linear-gradient(135deg, rgba(30,58,138,0.1) 0%, rgba(13,148,136,0.1) 100%);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      overflow: hidden;
+    }
+    
+    .product-image img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+    }
+    
+    .product-content {
+      padding: 1.5rem;
+    }
+    
+    .product-header {
+      display: flex;
+      align-items: center;
+      gap: 0.75rem;
+      margin-bottom: 1rem;
+    }
+    
+    .product-icon {
+      width: 24px;
+      height: 24px;
+      color: #1e3a8a;
+    }
+    
+    .product-title {
+      font-size: 1.25rem;
+      font-weight: bold;
+      color: #1f2937;
+    }
+    
+    .product-description {
+      color: #6b7280;
+      font-size: 0.95rem;
+    }
+    
+    /* Benefits Section */
+    .benefits {
+      padding: 4rem 0;
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 3rem;
+      align-items: center;
+    }
+    
+    .benefits-content h2 {
+      font-size: 2.5rem;
+      font-weight: bold;
+      margin-bottom: 1rem;
+    }
+    
+    .benefits-content > p {
+      color: #6b7280;
+      font-size: 1.125rem;
+      margin-bottom: 2rem;
+    }
+    
+    .benefits-list {
+      display: flex;
+      flex-direction: column;
+      gap: 1.5rem;
+    }
+    
+    .benefit-item {
+      display: flex;
+      gap: 1rem;
+    }
+    
+    .benefit-number {
+      width: 48px;
+      height: 48px;
+      background: rgba(30,58,138,0.1);
+      border-radius: 8px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-weight: bold;
+      color: #1e3a8a;
+      flex-shrink: 0;
+    }
+    
+    .benefit-text h3 {
+      font-weight: bold;
+      margin-bottom: 0.5rem;
+      color: #1f2937;
+    }
+    
+    .benefit-text p {
+      color: #6b7280;
+      font-size: 0.95rem;
+    }
+    
+    .benefits-stats {
+      background: rgba(30,58,138,0.05);
+      padding: 2rem;
+      border-radius: 12px;
+      display: flex;
+      flex-direction: column;
+      gap: 1.5rem;
+    }
+    
+    .stat {
+      text-align: center;
+    }
+    
+    .stat-value {
+      font-size: 2.5rem;
+      font-weight: bold;
+      color: #1e3a8a;
+      margin-bottom: 0.5rem;
+    }
+    
+    .stat-label {
+      color: #6b7280;
+      font-size: 0.95rem;
+    }
+    
+    .stat-divider {
+      height: 1px;
+      background: #e5e7eb;
+    }
+    
+    /* CTA Section */
+    .cta {
+      background: #1e3a8a;
+      color: white;
+      padding: 4rem 0;
+      text-align: center;
+    }
+    
+    .cta h2 {
+      font-size: 2.5rem;
+      font-weight: bold;
+      margin-bottom: 1rem;
+    }
+    
+    .cta p {
+      font-size: 1.125rem;
+      margin-bottom: 2rem;
+      opacity: 0.9;
+      max-width: 600px;
+      margin-left: auto;
+      margin-right: auto;
+    }
+    
+    .cta-button {
+      background: white;
+      color: #1e3a8a;
+      padding: 1rem 2rem;
+      border: none;
+      border-radius: 6px;
+      font-weight: bold;
+      cursor: pointer;
+      transition: background 0.3s;
+      display: inline-flex;
+      align-items: center;
+      gap: 0.5rem;
+    }
+    
+    .cta-button:hover {
+      background: #f0f9ff;
+    }
+    
+    /* Footer */
+    footer {
+      background: #1f2937;
+      color: white;
+      padding: 3rem 0 1rem;
+    }
+    
+    .footer-content {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+      gap: 2rem;
+      margin-bottom: 2rem;
+    }
+    
+    .footer-section h4 {
+      font-weight: bold;
+      margin-bottom: 1rem;
+    }
+    
+    .footer-section p, .footer-section a {
+      color: rgba(255,255,255,0.75);
+      font-size: 0.95rem;
+      text-decoration: none;
+      transition: color 0.3s;
+    }
+    
+    .footer-section a:hover {
+      color: white;
+    }
+    
+    .footer-section ul {
+      list-style: none;
+      display: flex;
+      flex-direction: column;
+      gap: 0.5rem;
+    }
+    
+    .footer-divider {
+      height: 1px;
+      background: rgba(255,255,255,0.1);
+      margin-bottom: 1.5rem;
+    }
+    
+    .footer-bottom {
+      text-align: center;
+      color: rgba(255,255,255,0.6);
+      font-size: 0.9rem;
+    }
+    
+    /* Responsive */
+    @media (max-width: 768px) {
+      nav {
+        display: none;
+      }
+      
+      .hero {
+        grid-template-columns: 1fr;
+        margin-top: 100px;
+      }
+      
+      .hero-content h1 {
+        font-size: 2rem;
+      }
+      
+      .benefits {
+        grid-template-columns: 1fr;
+      }
+      
+      .section-title {
+        font-size: 2rem;
+      }
+    }
+  </style>
+</head>
+<body>
+  <!-- Header -->
+  <header>
+    <div class="container">
+      <div class="header-content">
+        <div class="logo">
+          <div class="logo-icon">S</div>
+          <span>Silencium</span>
+        </div>
+        <nav>
+          <a href="#home">Início</a>
+          <a href="#products">Produtos</a>
+          <a href="#benefits">Benefícios</a>
+          <a href="#contact">Contato</a>
+        </nav>
+        <button class="btn-primary">Solicitar Orçamento</button>
+      </div>
+    </div>
+  </header>
+
+  <!-- Hero Section -->
+  <section id="home" class="container">
+    <div class="hero">
+      <div class="hero-content">
+        <h1>Silêncio e Conforto para sua Casa</h1>
+        <p>Esquadrias de alta qualidade com isolamento acústico e térmico superior. Transforme sua casa em um refúgio de tranquilidade.</p>
+        <div class="hero-buttons">
+          <button class="btn-primary">Solicitar Orçamento →</button>
+          <button class="btn-secondary">Saiba Mais</button>
+        </div>
+      </div>
+      <div class="hero-image">
+        <img src="https://images.unsplash.com/photo-1600585154340-be6161a56a0c?w=600&h=400&fit=crop" alt="Janelas Silencium">
+      </div>
+    </div>
+  </section>
+
+  <!-- Products Section -->
+  <section id="products" class="products">
+    <div class="container">
+      <h2 class="section-title">Nossos Produtos</h2>
+      <p class="section-subtitle">Soluções completas em esquadrias para janelas, portas e vidros com tecnologia de ponta.</p>
+      
+      <div class="products-grid">
+        <div class="product-card">
+          <div class="product-image">
+            <img src="https://images.unsplash.com/photo-1558618666-fcd25c85cd64?w=400&h=250&fit=crop" alt="Isolamento Acústico">
+          </div>
+          <div class="product-content">
+            <div class="product-header">
+              <span class="product-icon">🔇</span>
+              <h3 class="product-title">Isolamento Acústico</h3>
+            </div>
+            <p class="product-description">Redução de até 45dB de ruído externo. Perfeito para ambientes urbanos e próximos a vias de tráfego.</p>
+          </div>
+        </div>
+
+        <div class="product-card">
+          <div class="product-image">
+            <img src="https://images.unsplash.com/photo-1585771724684-38269d6639fd?w=400&h=250&fit=crop" alt="Conforto Térmico">
+          </div>
+          <div class="product-content">
+            <div class="product-header">
+              <span class="product-icon">🌡️</span>
+              <h3 class="product-title">Conforto Térmico</h3>
+            </div>
+            <p class="product-description">Mantém a temperatura interna estável. Reduz gastos com aquecimento e ar condicionado em até 30%.</p>
+          </div>
+        </div>
+
+        <div class="product-card">
+          <div class="product-image">
+            <img src="https://images.unsplash.com/photo-1558618666-fcd25c85cd64?w=400&h=250&fit=crop" alt="Durabilidade">
+          </div>
+          <div class="product-content">
+            <div class="product-header">
+              <span class="product-icon">🛡️</span>
+              <h3 class="product-title">Durabilidade</h3>
+            </div>
+            <p class="product-description">Materiais premium com garantia de 10 anos. Resistem a intempéries e mantêm qualidade por décadas.</p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Benefits Section -->
+  <section id="benefits" class="container">
+    <div class="benefits">
+      <div class="benefits-content">
+        <h2>Por que Escolher Silencium?</h2>
+        <p>Qualidade, inovação e conforto em cada detalhe.</p>
+        
+        <div class="benefits-list">
+          <div class="benefit-item">
+            <div class="benefit-number">01</div>
+            <div class="benefit-text">
+              <h3>Tecnologia Premium</h3>
+              <p>Utilizamos os melhores materiais e processos de fabricação do mercado.</p>
+            </div>
+          </div>
+          
+          <div class="benefit-item">
+            <div class="benefit-number">02</div>
+            <div class="benefit-text">
+              <h3>Sustentabilidade</h3>
+              <p>Produtos eco-friendly que reduzem o consumo de energia da sua casa.</p>
+            </div>
+          </div>
+          
+          <div class="benefit-item">
+            <div class="benefit-number">03</div>
+            <div class="benefit-text">
+              <h3>Suporte Completo</h3>
+              <p>Instalação profissional e atendimento pós-venda de excelência.</p>
+            </div>
+          </div>
+        </div>
+      </div>
+      
+      <div class="benefits-stats">
+        <div class="stat">
+          <div class="stat-value">10+</div>
+          <div class="stat-label">Anos de Garantia</div>
+        </div>
+        <div class="stat-divider"></div>
+        <div class="stat">
+          <div class="stat-value">5000+</div>
+          <div class="stat-label">Clientes Satisfeitos</div>
+        </div>
+        <div class="stat-divider"></div>
+        <div class="stat">
+          <div class="stat-value">45dB</div>
+          <div class="stat-label">Isolamento Acústico</div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- CTA Section -->
+  <section id="contact" class="cta">
+    <div class="container">
+      <h2>Pronto para Transformar sua Casa?</h2>
+      <p>Solicite um orçamento gratuito e descubra como Silencium pode melhorar seu conforto e qualidade de vida.</p>
+      <button class="cta-button">Solicitar Orçamento Agora →</button>
+    </div>
+  </section>
+
+  <!-- Footer -->
+  <footer>
+    <div class="container">
+      <div class="footer-content">
+        <div class="footer-section">
+          <h4>Silencium</h4>
+          <p>Esquadrias de qualidade para seu conforto.</p>
+        </div>
+        <div class="footer-section">
+          <h4>Produtos</h4>
+          <ul>
+            <li><a href="#">Janelas</a></li>
+            <li><a href="#">Portas</a></li>
+            <li><a href="#">Vidros</a></li>
+          </ul>
+        </div>
+        <div class="footer-section">
+          <h4>Empresa</h4>
+          <ul>
+            <li><a href="#">Sobre</a></li>
+            <li><a href="#">Contato</a></li>
+            <li><a href="#">Blog</a></li>
+          </ul>
+        </div>
+        <div class="footer-section">
+          <h4>Contato</h4>
+          <p>Email: contato@silencium.com.br<br>Telefone: (11) 9999-9999</p>
+        </div>
+      </div>
+      <div class="footer-divider"></div>
+      <div class="footer-bottom">
+        <p>&copy; 2026 Silencium Esquadrias. Todos os direitos reservados.</p>
+      </div>
+    </div>
+  </footer>
+</body>
+            </html>
